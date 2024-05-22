@@ -82,11 +82,11 @@ const Donut3D = ({ theme }) => {
   return (
     <div
       className={`relative flex items-center justify-center min-h-screen ${
-        theme === "light" ? "bg-[#f0e5cf]" : "bg-[#1c1c1c]"
+        theme === "light" ? "bg-[#1c1c1c]" : "bg-[#f0e5cf]"
       }`}
     >
       <div ref={mountRef} className="absolute inset-0"></div>
-      <div className="absolute inset-0 flex flex-col items-center justify-center">
+      <div className="absolute inset-0 flex flex-col items-center justify-center space-y-4">
         <motion.div
           className={`text-center text-5xl font-bold ${
             theme === "light" ? "text-[#d4a373]" : "text-[#ffebc6]"
