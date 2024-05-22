@@ -105,7 +105,7 @@ const Donut3D = ({ theme }) => {
           animate={{ opacity: 1 }}
           transition={{ duration: 1, delay: 0.5 }}
         >
-          that's my favorite food
+          thats my favorite food
         </motion.div>
         <motion.div
           className={`text-center text-lg ${
@@ -115,7 +115,7 @@ const Donut3D = ({ theme }) => {
           animate={{ opacity: 1 }}
           transition={{ duration: 1, delay: 1 }}
         >
-          don't forget to login to know more about me
+          dont forget to login to know more about me
         </motion.div>
       </div>
     </div>
