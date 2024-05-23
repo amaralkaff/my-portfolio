@@ -63,7 +63,7 @@ const Login = () => {
               className="bg-white text-text-light dark:bg-secondary-light dark:text-text-dark border border-gray-300 dark:border-secondary-dark"
               ariaLabel="Sign in with Google"
             >
-              <FaGoogle className="text-google" style={{ fontSize: "24px" }} />
+              <FaGoogle className="text-black" style={{ fontSize: "24px" }} />
             </Button>
             <Button
               onClick={() => handleProviderSignIn(githubProvider)}
