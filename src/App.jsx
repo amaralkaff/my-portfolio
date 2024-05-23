@@ -1,5 +1,4 @@
-// src/App.jsx
-import React, { useContext, useEffect, Suspense, lazy } from "react";
+import { useContext, useEffect, Suspense, lazy } from "react";
 import {
   BrowserRouter as Router,
   Routes,
@@ -8,6 +7,7 @@ import {
 } from "react-router-dom";
 import Navbar from "./components/layout/Navbar";
 import { UserContext } from "./contexts/UserContext";
+import Loader from "./components/common/Loader";
 
 const Home = lazy(() => import("./pages/Home"));
 const About = lazy(() => import("./pages/About"));
@@ -25,7 +25,7 @@ const App = () => {
   return (
     <Router>
       <Navbar />
-      <Suspense fallback={<div>Loading...</div>}>
+      <Suspense fallback={<Loader />}>
         <Routes>
           <Route path="/" element={<Home theme={theme} />} />
           <Route
