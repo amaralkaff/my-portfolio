@@ -4,10 +4,20 @@
     <meta charset="UTF-8" />
     <link rel="icon" type="image/svg+xml" href="/vite.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+      rel="stylesheet"
+      href="/src/index.css"
+      media="print"
+      onload="this.onload=null;this.removeAttribute('media');"
+    />
     <title>AmangLy Portfolio</title>
   </head>
   <body>
     <div id="root"></div>
+    <noscript><link rel="stylesheet" href="styles.css" /></noscript>
+
+    <link rel="preload" href="main.js" as="script" />
+    <link rel="preload" href="/src/index.css" as="style" />
     <script type="module" src="/src/main.jsx"></script>
   </body>
 </html>

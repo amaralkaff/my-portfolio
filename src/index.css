@@ -7,6 +7,12 @@ body {
   font-family: "Roboto Mono", monospace;
 }
 
+@font-face {
+  font-family: "MyFont";
+  src: url("myfont.woff2") format("woff2");
+  font-display: swap;
+}
+
 .loader {
   border: 8px solid #f3f3f3;
   border-top: 8px solid #3498db;
