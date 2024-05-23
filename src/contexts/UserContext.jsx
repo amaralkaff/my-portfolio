@@ -1,11 +1,9 @@
-// src/contexts/UserContext.jsx
 import { createContext, useState, useEffect } from "react";
-import PropTypes from "prop-types";
-import { auth } from "../firebaseConfig";
+import { auth } from "../utils/firebaseConfig";
 
 export const UserContext = createContext();
 
-export const UserProvider = ({ children, value }) => {
+export const UserProvider = ({ children }) => {
   const [user, setUser] = useState(null);
   const [theme, setTheme] = useState(
     () => localStorage.getItem("theme") || "light"
@@ -16,7 +14,6 @@ export const UserProvider = ({ children, value }) => {
       setUser(user);
     });
 
-    // Update theme class on document element
     if (theme === "light") {
       document.documentElement.classList.remove("dark");
       document.documentElement.classList.add("light");
@@ -25,7 +22,6 @@ export const UserProvider = ({ children, value }) => {
       document.documentElement.classList.add("dark");
     }
 
-    // Save theme to local storage
     localStorage.setItem("theme", theme);
 
     return unsubscribe;
@@ -33,16 +29,14 @@ export const UserProvider = ({ children, value }) => {
 
   const toggleTheme = () => setTheme(theme === "light" ? "dark" : "light");
 
+  const logout = async () => {
+    await auth.signOut();
+    setUser(null);
+  };
+
   return (
-    <UserContext.Provider
-      value={{ user, setUser, theme, toggleTheme, ...value }}
-    >
+    <UserContext.Provider value={{ user, setUser, theme, toggleTheme, logout }}>
       {children}
     </UserContext.Provider>
   );
-};
-
-UserProvider.propTypes = {
-  children: PropTypes.node.isRequired,
-  value: PropTypes.object,
 };

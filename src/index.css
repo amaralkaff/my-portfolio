@@ -4,5 +4,5 @@
 @tailwind utilities;
 
 body {
-  font-family: "Roboto Mono", monospace; /* Use Google font for monospace */
+  font-family: "Roboto Mono", monospace;
 }

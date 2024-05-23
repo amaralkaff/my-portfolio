@@ -1,8 +1,7 @@
-// pages/About.jsx
+// src/pages/About.jsx
 import { motion } from "framer-motion";
 
 const About = () => {
-  // Animation variants for framer-motion
   const containerVariants = {
     hidden: { opacity: 0 },
     visible: { opacity: 1, transition: { delay: 0.2, duration: 0.6 } },
@@ -43,19 +42,17 @@ const About = () => {
           <div className="about-experience mb-6">
             <h3 className="text-xl font-semibold">Work Experience</h3>
             <p>Junior Front-End Developer at PT. LEMBAGA SINERGI ANALITIKA</p>
-            <p>
-              <ul className="list-disc list-inside">
-                <li>
-                  Coordinate with UI/UX team to implement the web design created
-                  by UI/UX team.
-                </li>
-                <li>
-                  Test the display results on various browsers and ensure the
-                  feasibility of the display in consuming data from the API on
-                  the back-end side.
-                </li>
-              </ul>
-            </p>
+            <ul className="list-disc list-inside">
+              <li>
+                Coordinate with UI/UX team to implement the web design created
+                by UI/UX team.
+              </li>
+              <li>
+                Test the display results on various browsers and ensure the
+                feasibility of the display in consuming data from the API on the
+                back-end side.
+              </li>
+            </ul>
           </div>
           <div className="about-skills mb-6">
             <h3 className="text-xl font-semibold">Skills</h3>

@@ -1,17 +1,22 @@
-// App.js
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import { useContext, useEffect } from "react";
-import UserProviderWithNavigate from "./components/UserProviderWithNavigate";
-import Navbar from "./components/Navbar";
-import Home from "./pages/Home";
-import About from "./pages/About";
-import Contact from "./pages/Contact";
-import Register from "./components/Register";
-import Login from "./components/Login";
+// src/App.jsx
+import React, { useContext, useEffect, Suspense, lazy } from "react";
+import {
+  BrowserRouter as Router,
+  Routes,
+  Route,
+  Navigate,
+} from "react-router-dom";
+import Navbar from "./components/layout/Navbar";
 import { UserContext } from "./contexts/UserContext";
 
-function App() {
-  const { theme } = useContext(UserContext);
+const Home = lazy(() => import("./pages/Home"));
+const About = lazy(() => import("./pages/About"));
+const Contact = lazy(() => import("./pages/Contact"));
+const Login = lazy(() => import("./pages/Login"));
+const FinishSignUp = lazy(() => import("./pages/FinishSignUp"));
+
+const App = () => {
+  const { user, theme } = useContext(UserContext);
 
   useEffect(() => {
     document.body.className = theme === "light" ? "light-mode" : "dark-mode";
@@ -19,18 +24,24 @@ function App() {
 
   return (
     <Router>
-      <UserProviderWithNavigate>
-        <Navbar />
+      <Navbar />
+      <Suspense fallback={<div>Loading...</div>}>
         <Routes>
-          <Route path="/" element={<Home theme={theme} />} />{" "}
-          <Route path="/about" element={<About />} />
-          <Route path="/contact" element={<Contact />} />
-          <Route path="/register" element={<Register />} />
+          <Route path="/" element={<Home theme={theme} />} />
+          <Route
+            path="/about"
+            element={user ? <About /> : <Navigate to="/login" />}
+          />
+          <Route
+            path="/contact"
+            element={user ? <Contact /> : <Navigate to="/login" />}
+          />
           <Route path="/login" element={<Login />} />
+          <Route path="/finishSignUp" element={<FinishSignUp />} />
         </Routes>
-      </UserProviderWithNavigate>
+      </Suspense>
     </Router>
   );
-}
+};
 
 export default App;
