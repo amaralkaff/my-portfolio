@@ -21,7 +21,7 @@ const useAuth = () => {
   const handleEmailSignIn = async (email) => {
     try {
       const actionCodeSettings = {
-        url: "http://localhost:3000/finishSignUp",
+        url: "https://my-portfolio-2ll2.vercel.app/finishSignUp",
         handleCodeInApp: true,
       };
       await sendSignInLinkToEmail(auth, email, actionCodeSettings);
