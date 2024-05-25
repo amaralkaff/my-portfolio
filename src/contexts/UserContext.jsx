@@ -7,6 +7,7 @@ export const UserContext = createContext();
 
 export const UserProvider = ({ children }) => {
   const [user, setUser] = useState(null);
+  const [loading, setLoading] = useState(true);
   const [theme, setTheme] = useState(
     () => localStorage.getItem("theme") || "light"
   );
@@ -25,6 +26,7 @@ export const UserProvider = ({ children }) => {
       } else {
         setUser(null);
       }
+      setLoading(false);
     });
 
     if (theme === "light") {
@@ -42,6 +44,11 @@ export const UserProvider = ({ children }) => {
 
   const toggleTheme = () => setTheme(theme === "light" ? "dark" : "light");
 
+  const logout = async () => {
+    await auth.signOut();
+    setUser(null);
+  };
+
   const updateUser = async (updatedUser) => {
     const userDocRef = doc(db, "users", updatedUser.uid);
     const userData = {
@@ -55,7 +62,7 @@ export const UserProvider = ({ children }) => {
 
   return (
     <UserContext.Provider
-      value={{ user, setUser, theme, toggleTheme, updateUser }}
+      value={{ user, setUser, loading, theme, toggleTheme, logout, updateUser }}
     >
       {children}
     </UserContext.Provider>

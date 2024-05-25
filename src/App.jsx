@@ -6,6 +6,7 @@ import { UserContext } from "./contexts/UserContext";
 import Loader from "./components/common/Loader";
 import RequireProfileCompletion from "./components/middleware/RequireProfileCompletion";
 import LoadingSpinner from "./components/common/LoadingSpinner";
+import PrivateRoute from "./components/middleware/PrivateRoute";
 
 const Home = lazy(() => import("./pages/Home"));
 const About = lazy(() => import("./pages/About"));
@@ -47,17 +48,21 @@ const App = () => {
           <Route
             path="/about"
             element={
-              <RequireProfileCompletion>
-                <About />
-              </RequireProfileCompletion>
+              <PrivateRoute>
+                <RequireProfileCompletion>
+                  <About />
+                </RequireProfileCompletion>
+              </PrivateRoute>
             }
           />
           <Route
             path="/contact"
             element={
-              <RequireProfileCompletion>
-                <Contact />
-              </RequireProfileCompletion>
+              <PrivateRoute>
+                <RequireProfileCompletion>
+                  <Contact />
+                </RequireProfileCompletion>
+              </PrivateRoute>
             }
           />
           <Route path="/login" element={<Login />} />
@@ -65,17 +70,21 @@ const App = () => {
           <Route
             path="/social"
             element={
-              <RequireProfileCompletion>
-                <SocialFeed />
-              </RequireProfileCompletion>
+              <PrivateRoute>
+                <RequireProfileCompletion>
+                  <SocialFeed />
+                </RequireProfileCompletion>
+              </PrivateRoute>
             }
           />
           <Route
             path="/profile"
             element={
-              <RequireProfileCompletion>
-                <Profile />
-              </RequireProfileCompletion>
+              <PrivateRoute>
+                <RequireProfileCompletion>
+                  <Profile />
+                </RequireProfileCompletion>
+              </PrivateRoute>
             }
           />
           <Route

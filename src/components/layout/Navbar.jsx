@@ -1,6 +1,6 @@
 // src/components/layout/Navbar.jsx
 import { useContext, useState, useEffect } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
 import { UserContext } from "../../contexts/UserContext";
 import ThemeToggle from "../common/ThemeToggle";
@@ -9,6 +9,7 @@ const Navbar = () => {
   const { user, logout } = useContext(UserContext);
   const [isOpen, setIsOpen] = useState(false);
   const [isLoggedIn, setIsLoggedIn] = useState(!!user);
+  const navigate = useNavigate();
 
   const toggleMenu = () => setIsOpen(!isOpen);
 
@@ -30,16 +31,16 @@ const Navbar = () => {
     closed: { x: "100%", opacity: 0, transition: { duration: 0.5 } },
   };
 
-  const handleLogout = async () => {
-    await logout();
-    setIsOpen(false);
-  };
-
-  // Define itemVariants
   const itemVariants = {
     initial: { opacity: 0, x: -50 },
     animate: { opacity: 1, x: 0, transition: { duration: 0.5 } },
     exit: { opacity: 0, x: 50, transition: { duration: 0.5 } },
+  };
+
+  const handleLogout = async () => {
+    await logout();
+    navigate("/"); // Navigate to home page after logout
+    setIsOpen(false);
   };
 
   return (

@@ -4,6 +4,7 @@ import * as Yup from "yup";
 import { motion } from "framer-motion";
 import emailjs from "emailjs-com";
 import Swal from "sweetalert2";
+import Button from "../components/common/Button";
 
 const ContactSchema = Yup.object().shape({
   name: Yup.string()
@@ -106,15 +107,14 @@ const ContactForm = () => {
               />
             </div>
 
-            <motion.button
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
+            <Button
               type="submit"
+              className="w-full"
+              ariaLabel="Submit"
               disabled={isSubmitting}
-              className="w-full py-3 bg-blue-500 hover:bg-blue-700 text-white font-bold rounded-lg focus:outline-none focus:ring-4 focus:ring-blue-300"
             >
               Submit
-            </motion.button>
+            </Button>
           </Form>
         )}
       </Formik>

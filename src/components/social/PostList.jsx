@@ -12,12 +12,8 @@ const PostList = ({ posts }) => {
     }
   }, [posts]);
 
-  if (loading) {
+  if (loading || !posts || posts.length === 0) {
     return <LoadingSpinner />;
-  }
-
-  if (!posts || posts.length === 0) {
-    return <div>No posts available</div>;
   }
 
   return (
