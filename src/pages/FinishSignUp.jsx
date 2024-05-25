@@ -1,44 +1,30 @@
 // src/pages/FinishSignUp.jsx
 import { useEffect, useContext } from "react";
 import { useNavigate } from "react-router-dom";
-import {
-  getAuth,
-  isSignInWithEmailLink,
-  signInWithEmailLink,
-} from "firebase/auth";
+import { getAuth, isSignInWithEmailLink } from "firebase/auth";
 import Swal from "sweetalert2";
 import { UserContext } from "../contexts/UserContext";
+import useAuth from "../hooks/useAuth";
 
 const FinishSignUp = () => {
   const { setUser } = useContext(UserContext);
+  const { finishSignIn } = useAuth();
   const navigate = useNavigate();
   const auth = getAuth();
 
   useEffect(() => {
-    const finishSignIn = async () => {
+    const finishSignInProcess = async () => {
       if (isSignInWithEmailLink(auth, window.location.href)) {
         let email = window.localStorage.getItem("emailForSignIn");
         if (!email) {
           email = window.prompt("Please provide your email for confirmation");
         }
-        try {
-          const result = await signInWithEmailLink(
-            auth,
-            email,
-            window.location.href
-          );
-          window.localStorage.removeItem("emailForSignIn");
-          Swal.fire("Success!", "Sign-in successful", "success");
-          setUser({ email: result.user.email });
-          navigate("/");
-        } catch (error) {
-          Swal.fire("Error!", error.message, "error");
-        }
+        await finishSignIn(email, window.location.href);
       }
     };
 
-    finishSignIn();
-  }, [auth, navigate, setUser]);
+    finishSignInProcess();
+  }, [auth, finishSignIn]);
 
   return (
     <div className="flex items-center justify-center min-h-screen bg-gray-100 dark:bg-gray-900">

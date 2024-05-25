@@ -8,7 +8,7 @@ const FormInput = ({ label, name, type, placeholder, value, onChange }) => (
       {label}
     </label>
     <input
-      className="w-full p-3 mt-1 text-text-light bg-gray-200 dark:bg-secondary-dark border rounded-lg focus:outline-none focus:bg-white dark:focus:bg-secondary-light focus:border-primary-light"
+      className="w-full p-3 mt-1 bg-gray-200 dark:bg-secondary-dark border rounded-lg focus:outline-none focus:bg-white dark:focus:bg-secondary-light focus:border-primary-light text-gray-900 dark:text-gray-100"
       name={name}
       type={type}
       placeholder={placeholder}

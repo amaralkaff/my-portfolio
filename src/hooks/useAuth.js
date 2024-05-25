@@ -1,11 +1,12 @@
-// src/hooks/useAuth.js
-import { useContext, useState } from "react";
+import { useState, useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import {
   sendSignInLinkToEmail,
-  signInWithPopup,
+  signInWithEmailLink,
   signInAnonymously,
-  signOut,
+  signInWithPopup,
+  GoogleAuthProvider,
+  GithubAuthProvider,
 } from "firebase/auth";
 import { auth, googleProvider, githubProvider } from "../utils/firebaseConfig";
 import { UserContext } from "../contexts/UserContext";
@@ -23,12 +24,24 @@ const useAuth = () => {
   const handleEmailSignIn = async (email) => {
     try {
       const actionCodeSettings = {
-        url: "https://amangly.fun/finishSignUp",
+        url: `${window.location.origin}/finishSignUp`,
         handleCodeInApp: true,
       };
       await sendSignInLinkToEmail(auth, email, actionCodeSettings);
       window.localStorage.setItem("emailForSignIn", email);
-      showNotification("Sign-in link sent to your email", "success");
+      showNotification("Sign-in link sent to your email.", "success");
+    } catch (error) {
+      showNotification(error.message, "error");
+    }
+  };
+
+  const finishSignIn = async (email, link) => {
+    try {
+      const result = await signInWithEmailLink(auth, email, link);
+      window.localStorage.removeItem("emailForSignIn");
+      setUser({ email: result.user.email });
+      showNotification("Sign-in successful", "success");
+      navigate("/");
     } catch (error) {
       showNotification(error.message, "error");
     }
@@ -37,34 +50,22 @@ const useAuth = () => {
   const handleProviderSignIn = async (provider) => {
     try {
       const result = await signInWithPopup(auth, provider);
-      const user = result.user;
-      setUser({ email: user.email });
+      setUser({ email: result.user.email });
       showNotification("Login successful", "success");
       navigate("/");
     } catch (error) {
-      showNotification(`Error during ${provider.providerId} Sign-In`, "error");
+      showNotification(error.message, "error");
     }
   };
 
   const handleAnonymousSignIn = async () => {
     try {
       const result = await signInAnonymously(auth);
-      const user = result.user;
-      setUser({ uid: user.uid, email: "Anonymous" });
-      navigate("/complete-profile");
-    } catch (error) {
-      showNotification("Error during Anonymous Sign-In", "error");
-    }
-  };
-
-  const handleLogout = async () => {
-    try {
-      await signOut(auth);
-      setUser(null);
-      showNotification("Logout successful", "success");
+      setUser({ uid: result.user.uid });
+      showNotification("Anonymous login successful", "success");
       navigate("/");
     } catch (error) {
-      showNotification("Error during Logout", "error");
+      showNotification(error.message, "error");
     }
   };
 
@@ -72,9 +73,9 @@ const useAuth = () => {
     notification,
     showNotification,
     handleEmailSignIn,
+    finishSignIn,
     handleProviderSignIn,
     handleAnonymousSignIn,
-    handleLogout,
   };
 };
 

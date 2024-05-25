@@ -1,9 +1,11 @@
-// src/components/social/PostForm.jsx
+// src/components/social/PostFoem.jsx
 import React, { useState, useContext } from "react";
 import { UserContext } from "../../contexts/UserContext";
 import Button from "../common/Button";
 import FormInput from "../common/FormInput";
 import { addPost } from "../../utils/firestoreUtils";
+import { motion } from "framer-motion";
+import defaultProfile from "../../../public/assets/defaultProfile.svg";
 
 const PostForm = ({ onNewPost }) => {
   const [content, setContent] = useState("");
@@ -17,15 +19,22 @@ const PostForm = ({ onNewPost }) => {
         createdAt: new Date().toISOString(),
         userId: user.uid,
         author: user.name || "Anonymous",
+        authorPhotoURL: user.photoURL || defaultProfile,
       };
-      await addPost(post);
-      onNewPost(post);
+      const newPost = await addPost(post);
+      onNewPost(newPost);
       setContent("");
     }
   };
 
   return (
-    <form onSubmit={handleSubmit} className="mb-4">
+    <motion.form
+      onSubmit={handleSubmit}
+      className="mb-4"
+      initial={{ opacity: 0, y: -20 }}
+      animate={{ opacity: 1, y: 0 }}
+      exit={{ opacity: 0, y: 20 }}
+    >
       <FormInput
         label="New Post"
         name="content"
@@ -37,7 +46,7 @@ const PostForm = ({ onNewPost }) => {
       <Button type="submit" className="mt-2" ariaLabel="Submit Post">
         Post
       </Button>
-    </form>
+    </motion.form>
   );
 };
 

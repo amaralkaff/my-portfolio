@@ -1,4 +1,3 @@
-// src/components/middleware/RequireProfileCompletion.jsx
 import { useContext, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Swal from "sweetalert2";
@@ -9,9 +8,10 @@ const RequireProfileCompletion = ({ children }) => {
   const { user } = useContext(UserContext);
   const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
+  const [alertShown, setAlertShown] = useState(false); // Add state to track if alert has been shown
 
   useEffect(() => {
-    if (user && !user.name) {
+    if (user && !user.name && !alertShown) {
       setLoading(true);
       Swal.fire({
         title: "Profile Incomplete",
@@ -23,9 +23,10 @@ const RequireProfileCompletion = ({ children }) => {
         if (result.isConfirmed) {
           navigate("/complete-profile");
         }
+        setAlertShown(true); // Set alert shown to true
       });
     }
-  }, [user, navigate]);
+  }, [user, navigate, alertShown]);
 
   if (loading) {
     return <LoadingSpinner />;

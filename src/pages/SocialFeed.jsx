@@ -1,33 +1,50 @@
 // src/pages/SocialFeed.jsx
 import React, { useState, useEffect } from "react";
-import PostForm from "../components/social/PostForm";
-import PostList from "../components/social/PostList";
-import { getPosts } from "../utils/firestoreUtils";
+import Post from "./../components/social/Post";
+import PostForm from "./../components/social/PostForm";
+import { getPosts, subscribeToPosts } from "../utils/firestoreUtils";
+import LoadingSpinner from "../components/common/LoadingSpinner";
+import { AnimatePresence, motion } from "framer-motion";
 
 const SocialFeed = () => {
   const [posts, setPosts] = useState([]);
+  const [error, setError] = useState(null);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    const fetchPosts = async () => {
-      try {
-        const allPosts = await getPosts();
-        setPosts(allPosts);
-      } catch (error) {
-        console.error("Error getting posts: ", error);
-      }
-    };
-    fetchPosts();
+    const unsubscribe = subscribeToPosts((newPosts) => {
+      setPosts(newPosts);
+      setLoading(false);
+    });
+
+    return () => unsubscribe();
   }, []);
 
   const handleNewPost = (post) => {
     setPosts([post, ...posts]);
   };
 
+  const handleDeletePost = (postId) => {
+    setPosts(posts.filter((post) => post.id !== postId));
+  };
+
+  if (error) {
+    return <div>{error}</div>;
+  }
+
   return (
-    <div className="social-feed-container flex flex-col items-center p-6 bg-gray-100 dark:bg-gray-900 min-h-screen">
-      <h1 className="text-4xl font-bold mb-6">Social Feed</h1>
+    <div className="social-feed">
+      <h2 className="text-2xl font-bold mb-4">Social Feed</h2>
       <PostForm onNewPost={handleNewPost} />
-      <PostList posts={posts} />
+      {loading ? (
+        <LoadingSpinner />
+      ) : (
+        <AnimatePresence>
+          {posts.map((post) => (
+            <Post key={post.id} post={post} onDelete={handleDeletePost} />
+          ))}
+        </AnimatePresence>
+      )}
     </div>
   );
 };

@@ -16,6 +16,7 @@ const FinishSignUp = lazy(() => import("./pages/FinishSignUp"));
 const SocialFeed = lazy(() => import("./pages/SocialFeed"));
 const Profile = lazy(() => import("./pages/Profile"));
 const CompleteProfile = lazy(() => import("./pages/CompleteProfile"));
+const UserProfile = lazy(() => import("./pages/UserProfile"));
 
 const App = () => {
   const { user, theme } = useContext(UserContext);
@@ -91,6 +92,7 @@ const App = () => {
             path="/complete-profile"
             element={user ? <CompleteProfile /> : <Navigate to="/login" />}
           />
+          <Route path="/profile/:userId" element={<UserProfile />} />
         </Routes>
       </Suspense>
     </>

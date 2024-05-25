@@ -7,18 +7,13 @@ import FormInput from "../components/common/FormInput";
 
 const CompleteProfile = () => {
   const [name, setName] = useState("");
-  const { user, updateUser } = useContext(UserContext);
+  const { user, updateUserProfile } = useContext(UserContext); // Use updateUserProfile
   const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (name.trim()) {
-      const updatedUser = {
-        uid: user.uid,
-        email: user.email,
-        name: name.trim(),
-      };
-      await updateUser(updatedUser);
+      await updateUserProfile({ name: name.trim() }); // Use updateUserProfile
       navigate("/");
     }
   };
