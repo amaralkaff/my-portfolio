@@ -1,3 +1,4 @@
+// src/components/layout/Navbar.jsx
 import { useContext, useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
@@ -34,6 +35,7 @@ const Navbar = () => {
     setIsOpen(false);
   };
 
+  // Define itemVariants
   const itemVariants = {
     initial: { opacity: 0, x: -50 },
     animate: { opacity: 1, x: 0, transition: { duration: 0.5 } },
@@ -111,6 +113,38 @@ const Navbar = () => {
                       aria-label="Contact"
                     >
                       Contact
+                    </Link>
+                  </motion.div>
+                  <motion.div
+                    key="social"
+                    initial="initial"
+                    animate="animate"
+                    exit="exit"
+                    variants={itemVariants}
+                  >
+                    <Link
+                      className="p-4 block md:inline-block"
+                      to="/social"
+                      onClick={toggleMenu}
+                      aria-label="Social Feed"
+                    >
+                      Social Feed
+                    </Link>
+                  </motion.div>
+                  <motion.div
+                    key="profile"
+                    initial="initial"
+                    animate="animate"
+                    exit="exit"
+                    variants={itemVariants}
+                  >
+                    <Link
+                      className="p-4 block md:inline-block"
+                      to="/profile"
+                      onClick={toggleMenu}
+                      aria-label="Profile"
+                    >
+                      Profile
                     </Link>
                   </motion.div>
                 </>

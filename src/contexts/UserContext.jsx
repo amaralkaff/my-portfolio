@@ -1,5 +1,7 @@
+// src/contexts/UserContext.jsx
 import { createContext, useState, useEffect } from "react";
-import { auth } from "../utils/firebaseConfig";
+import { auth, db } from "../utils/firebaseConfig";
+import { doc, getDoc, setDoc } from "firebase/firestore";
 
 export const UserContext = createContext();
 
@@ -10,8 +12,19 @@ export const UserProvider = ({ children }) => {
   );
 
   useEffect(() => {
-    const unsubscribe = auth.onAuthStateChanged((user) => {
-      setUser(user);
+    const unsubscribe = auth.onAuthStateChanged(async (user) => {
+      if (user) {
+        const userDocRef = doc(db, "users", user.uid);
+        const userDoc = await getDoc(userDocRef);
+        if (userDoc.exists()) {
+          setUser({ ...user, ...userDoc.data() });
+        } else {
+          await setDoc(userDocRef, { email: user.email, name: "" });
+          setUser({ ...user, email: user.email, name: "" });
+        }
+      } else {
+        setUser(null);
+      }
     });
 
     if (theme === "light") {
@@ -29,13 +42,21 @@ export const UserProvider = ({ children }) => {
 
   const toggleTheme = () => setTheme(theme === "light" ? "dark" : "light");
 
-  const logout = async () => {
-    await auth.signOut();
-    setUser(null);
+  const updateUser = async (updatedUser) => {
+    const userDocRef = doc(db, "users", updatedUser.uid);
+    const userData = {
+      uid: updatedUser.uid,
+      email: updatedUser.email,
+      name: updatedUser.name,
+    };
+    await setDoc(userDocRef, userData);
+    setUser(updatedUser);
   };
 
   return (
-    <UserContext.Provider value={{ user, setUser, theme, toggleTheme, logout }}>
+    <UserContext.Provider
+      value={{ user, setUser, theme, toggleTheme, updateUser }}
+    >
       {children}
     </UserContext.Provider>
   );

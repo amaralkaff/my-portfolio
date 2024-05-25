@@ -1,7 +1,8 @@
-// src/components/common/Loader.jsx
+// src/components/common/LoadingSpinner.jsx
+import React from "react";
 import { motion } from "framer-motion";
 
-const Loader = () => {
+const LoadingSpinner = () => {
   return (
     <motion.div
       className="flex justify-center items-center h-screen"
@@ -14,4 +15,4 @@ const Loader = () => {
   );
 };
 
-export default Loader;
+export default LoadingSpinner;

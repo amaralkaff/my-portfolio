@@ -1,4 +1,5 @@
-import React, { useContext } from "react";
+// src/components/common/ThemeToggle.jsx
+import { useContext } from "react";
 import { UserContext } from "../../contexts/UserContext";
 import { MdOutlineLightMode, MdOutlineDarkMode } from "react-icons/md";
 

@@ -1,9 +1,11 @@
+// src/hooks/useAuth.js
 import { useContext, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import {
   sendSignInLinkToEmail,
   signInWithPopup,
   signInAnonymously,
+  signOut,
 } from "firebase/auth";
 import { auth, googleProvider, githubProvider } from "../utils/firebaseConfig";
 import { UserContext } from "../contexts/UserContext";
@@ -21,7 +23,7 @@ const useAuth = () => {
   const handleEmailSignIn = async (email) => {
     try {
       const actionCodeSettings = {
-        url: "https://my-portfolio-2ll2.vercel.app/finishSignUp",
+        url: "https://amangly.fun/finishSignUp",
         handleCodeInApp: true,
       };
       await sendSignInLinkToEmail(auth, email, actionCodeSettings);
@@ -36,8 +38,8 @@ const useAuth = () => {
     try {
       const result = await signInWithPopup(auth, provider);
       const user = result.user;
-      showNotification("Login successful", "success");
       setUser({ email: user.email });
+      showNotification("Login successful", "success");
       navigate("/");
     } catch (error) {
       showNotification(`Error during ${provider.providerId} Sign-In`, "error");
@@ -48,11 +50,21 @@ const useAuth = () => {
     try {
       const result = await signInAnonymously(auth);
       const user = result.user;
-      showNotification("Anonymous login successful", "success");
-      setUser({ email: "anonymous", uid: user.uid });
-      navigate("/");
+      setUser({ uid: user.uid, email: "Anonymous" });
+      navigate("/complete-profile");
     } catch (error) {
       showNotification("Error during Anonymous Sign-In", "error");
+    }
+  };
+
+  const handleLogout = async () => {
+    try {
+      await signOut(auth);
+      setUser(null);
+      showNotification("Logout successful", "success");
+      navigate("/");
+    } catch (error) {
+      showNotification("Error during Logout", "error");
     }
   };
 
@@ -62,6 +74,7 @@ const useAuth = () => {
     handleEmailSignIn,
     handleProviderSignIn,
     handleAnonymousSignIn,
+    handleLogout,
   };
 };
 

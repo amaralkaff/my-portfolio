@@ -1,4 +1,5 @@
-import React, { useState } from "react";
+// src/pages/Login.jsx
+import { useState } from "react";
 import { FaGoogle, FaGithub, FaUserSecret } from "react-icons/fa";
 import { motion } from "framer-motion";
 import useAuth from "../hooks/useAuth";

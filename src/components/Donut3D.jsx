@@ -1,5 +1,5 @@
+// src/components/Donut3D.jsx
 import { useRef, useEffect } from "react";
-import PropTypes from "prop-types";
 import * as THREE from "three";
 import { motion } from "framer-motion";
 
@@ -113,8 +113,5 @@ const Donut3D = ({ theme }) => {
   );
 };
 
-Donut3D.propTypes = {
-  theme: PropTypes.string.isRequired,
-};
 
 export default Donut3D;

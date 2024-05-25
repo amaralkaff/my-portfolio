@@ -1,13 +1,13 @@
+// src/components/common/ImageComponent.jsx
 import React from "react";
-import Image from "next/image";
 
 const ImageComponent = ({ src, alt, width, height }) => (
-  <Image
+  <img
     src={src}
     alt={alt}
     width={width}
     height={height}
-    layout="responsive"
+    className="w-full h-auto"
   />
 );
 
