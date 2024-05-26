@@ -1,6 +1,6 @@
 [
   {
-    "origin": ["http://localhost:5173"],
+    "origin": ["http://localhost:5173", "https://www.amangly.fun"],
     "method": ["GET", "POST", "PUT"],
     "responseHeader": ["Content-Type"],
     "maxAgeSeconds": 3600
