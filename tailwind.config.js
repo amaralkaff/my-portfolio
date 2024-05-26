@@ -1,12 +1,15 @@
+// tailwind.config.js
 /** @type {import('tailwindcss').Config} */
-export default {
+module.exports = {
   darkMode: "class",
   content: ["./index.html", "./src/**/*.{js,jsx}"],
   theme: {
     extend: {
       colors: {
-        "primary-light": "#10A37F", // OpenAI green color
-        "primary-dark": "#10A37F", // Same for dark mode
+        primary: "#405de6",
+        secondary: "#5851db",
+        "primary-light": "#10A37F",
+        "primary-dark": "#10A37F",
         "secondary-light": "#1F2937",
         "secondary-dark": "#4B5563",
         "background-light": "#F3F4F6",
@@ -17,10 +20,10 @@ export default {
       boxShadow: {
         button: "0 4px 14px 0 rgba(0, 0, 0, 0.1)",
       },
+      screens: {
+        xs: "480px",
+      },
     },
-  },
-  variants: {
-    extend: {},
   },
   plugins: [],
 };

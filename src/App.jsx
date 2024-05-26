@@ -1,9 +1,8 @@
 // src/App.jsx
-import { useContext, useEffect, Suspense, lazy, useState } from "react";
+import React, { useContext, useEffect, Suspense, lazy, useState } from "react";
 import { Routes, Route, Navigate, useLocation } from "react-router-dom";
 import Navbar from "./components/layout/Navbar";
 import { UserContext } from "./contexts/UserContext";
-import Loader from "./components/common/Loader";
 import RequireProfileCompletion from "./components/middleware/RequireProfileCompletion";
 import LoadingSpinner from "./components/common/LoadingSpinner";
 import PrivateRoute from "./components/middleware/PrivateRoute";
@@ -43,7 +42,7 @@ const App = () => {
     <>
       <Navbar />
       {loading && <LoadingSpinner />}
-      <Suspense fallback={<Loader />}>
+      <Suspense fallback={<LoadingSpinner />}>
         <Routes>
           <Route path="/" element={<Home theme={theme} />} />
           <Route

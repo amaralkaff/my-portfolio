@@ -1,31 +1,9 @@
 // src/contexts/UserContext.jsx
 import { createContext, useState, useEffect } from "react";
 import { auth, db, storage } from "../utils/firebaseConfig";
-import { doc, getDoc, setDoc } from "firebase/firestore";
-import imageCompression from "browser-image-compression";
+import { doc, getDoc, setDoc, updateDoc } from "firebase/firestore";
 import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
-
-const compressImage = async (file) => {
-  const options = {
-    maxSizeMB: 1,
-    maxWidthOrHeight: 800,
-    useWebWorker: true,
-  };
-  try {
-    const compressedFile = await imageCompression(file, options);
-    return compressedFile;
-  } catch (error) {
-    console.error("Error compressing image:", error);
-    return file;
-  }
-};
-
-const uploadFile = async (file) => {
-  const storageRef = ref(storage, `profile_pictures/${file.name}`);
-  await uploadBytes(storageRef, file);
-  const url = await getDownloadURL(storageRef);
-  return url;
-};
+import { updateUserPosts } from "../utils/firestoreUtils";
 
 export const UserContext = createContext();
 
@@ -86,9 +64,10 @@ export const UserProvider = ({ children }) => {
 
   const handleImageChange = async (file) => {
     if (file) {
-      const compressedFile = await compressImage(file);
-      const imageUrl = await uploadFile(compressedFile);
-      await updateUserProfile({ photoURL: imageUrl });
+      const storageRef = ref(storage, `profile_pictures/${file.name}`);
+      await uploadBytes(storageRef, file);
+      const url = await getDownloadURL(storageRef);
+      await updateUserProfile({ photoURL: url });
     }
   };
 
@@ -97,16 +76,15 @@ export const UserProvider = ({ children }) => {
       const currentUser = auth.currentUser;
       const userDocRef = doc(db, "users", currentUser.uid);
 
-      // Filter out only necessary fields
-      const filteredUpdates = {
-        ...(updates.name && { name: updates.name }),
-        ...(updates.bio && { bio: updates.bio }),
-        ...(updates.photoURL && { photoURL: updates.photoURL }),
-      };
+      await updateDoc(userDocRef, updates);
 
-      await setDoc(userDocRef, filteredUpdates, { merge: true });
-      setUser((prevUser) => ({ ...prevUser, ...filteredUpdates }));
-      await updateUserPosts(user.uid, filteredUpdates);
+      if (updates.photoURL) {
+        await updateUserPosts(currentUser.uid, {
+          authorPhotoURL: updates.photoURL,
+        });
+      }
+
+      setUser((prevUser) => ({ ...prevUser, ...updates }));
     } catch (error) {
       console.error("Error updating profile: ", error);
     }

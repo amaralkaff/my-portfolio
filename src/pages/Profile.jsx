@@ -32,7 +32,7 @@ const Profile = () => {
       if (image) {
         await handleImageChange(image);
       }
-      await updateUserProfile({ name, bio, email }); // Include email in the update
+      await updateUserProfile({ name, bio, email });
       Swal.fire("Success!", "Profile updated successfully!", "success");
     } catch (error) {
       console.error("Error updating profile: ", error);
@@ -43,7 +43,6 @@ const Profile = () => {
   };
 
   const handleEmailUpdate = async () => {
-    // Just update the email in the local state and Firestore
     try {
       setLoading(true);
       await updateUserProfile({ email });

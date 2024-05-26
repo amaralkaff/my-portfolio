@@ -8,15 +8,9 @@ body {
   font-family: "Roboto Mono", monospace;
 }
 
-@font-face {
-  font-family: "MyFont";
-  src: url("myfont.woff2") format("woff2");
-  font-display: swap;
-}
-
 .loader {
-  border: 16px solid #f3f3f3; /* Light grey */
-  border-top: 16px solid #3498db; /* Blue */
+  border: 16px solid #f3f3f3;
+  border-top: 16px solid #3498db;
   border-radius: 50%;
   width: 120px;
   height: 120px;
@@ -32,7 +26,6 @@ body {
   }
 }
 
-/* Ensure light and dark mode harmonization */
 body.light-mode {
   background-color: #f0e5cf;
   color: #1c1c1c;

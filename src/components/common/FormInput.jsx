@@ -1,22 +1,42 @@
 // src/components/common/FormInput.jsx
-const FormInput = ({ label, name, type, placeholder, value, onChange }) => (
-  <div>
+import PropTypes from "prop-types";
+
+const FormInput = ({
+  label,
+  name,
+  type,
+  placeholder,
+  value,
+  onChange,
+  className,
+}) => (
+  <div className={`form-input ${className}`}>
     <label
-      className="text-sm font-bold text-text-light dark:text-text-dark"
       htmlFor={name}
+      className="block text-gray-700 dark:text-gray-300 mb-2"
     >
       {label}
     </label>
     <input
-      className="w-full p-3 mt-1 bg-gray-200 dark:bg-secondary-dark border rounded-lg focus:outline-none focus:bg-white dark:focus:bg-secondary-light focus:border-primary-light text-gray-900 dark:text-gray-100"
+      id={name}
       name={name}
       type={type}
       placeholder={placeholder}
       value={value}
       onChange={onChange}
-      required
+      className="w-full p-2 border rounded-lg dark:bg-gray-700 dark:text-gray-100"
     />
   </div>
 );
+
+FormInput.propTypes = {
+  label: PropTypes.string.isRequired,
+  name: PropTypes.string.isRequired,
+  type: PropTypes.string.isRequired,
+  placeholder: PropTypes.string,
+  value: PropTypes.oneOfType([PropTypes.string, PropTypes.number]).isRequired,
+  onChange: PropTypes.func.isRequired,
+  className: PropTypes.string,
+};
 
 export default FormInput;

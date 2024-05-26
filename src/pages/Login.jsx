@@ -29,7 +29,7 @@ const Login = () => {
     <div className="flex items-center justify-center min-h-screen bg-background-light dark:bg-background-dark">
       <Notification
         message={notification.message}
-        type={notification.type}
+        type={notification.type || "error"}
         onClose={() => showNotification("", "")}
       />
       <motion.div
@@ -55,6 +55,7 @@ const Login = () => {
             type="submit"
             className="w-full"
             ariaLabel="Send Sign-In Link"
+            onClick={handleSubmit}
           >
             Send Sign-In Link
           </Button>

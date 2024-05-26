@@ -2,8 +2,9 @@
 import React, { useState, useEffect } from "react";
 import Post from "./Post";
 import LoadingSpinner from "../common/LoadingSpinner";
+import { motion, AnimatePresence } from "framer-motion";
 
-const PostList = ({ posts }) => {
+const PostList = ({ posts, onDelete, onLike }) => {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -18,9 +19,22 @@ const PostList = ({ posts }) => {
 
   return (
     <div>
-      {posts.map((post) => (
-        <Post key={post.id} post={post} />
-      ))}
+      <AnimatePresence>
+        {posts.map((post) => (
+          <motion.div
+            key={post.id}
+            initial={{ opacity: 0, y: 10 }}
+            animate={{
+              opacity: 1,
+              y: 0,
+            }}
+            exit={{ opacity: 0, y: 10 }}
+            transition={{ duration: 0.3 }}
+          >
+            <Post post={post} onDelete={onDelete} onLike={onLike} />
+          </motion.div>
+        ))}
+      </AnimatePresence>
     </div>
   );
 };

@@ -1,4 +1,5 @@
 // src/components/common/Notification.jsx
+import PropTypes from "prop-types";
 import { motion, AnimatePresence } from "framer-motion";
 
 const Notification = ({ message, type, onClose }) => {
@@ -33,6 +34,12 @@ const Notification = ({ message, type, onClose }) => {
       )}
     </AnimatePresence>
   );
+};
+
+Notification.propTypes = {
+  message: PropTypes.string.isRequired,
+  type: PropTypes.oneOf(["success", "error"]).isRequired,
+  onClose: PropTypes.func.isRequired,
 };
 
 export default Notification;

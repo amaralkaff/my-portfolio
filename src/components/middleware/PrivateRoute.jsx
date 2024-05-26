@@ -8,7 +8,7 @@ const PrivateRoute = ({ children }) => {
   const { user, loading } = useContext(UserContext);
 
   if (loading) {
-    return <LoadingSpinner />; // Show loading spinner while checking authentication
+    return <LoadingSpinner />;
   }
 
   return user ? children : <Navigate to="/login" />;

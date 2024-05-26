@@ -1,4 +1,5 @@
 // src/components/common/Button.jsx
+import PropTypes from "prop-types";
 import { motion } from "framer-motion";
 
 const Button = ({
@@ -23,5 +24,14 @@ const Button = ({
     {children}
   </motion.button>
 );
+
+Button.propTypes = {
+  children: PropTypes.node.isRequired,
+  onClick: PropTypes.func.isRequired, // Ensure onClick is required
+  type: PropTypes.string,
+  className: PropTypes.string,
+  ariaLabel: PropTypes.string.isRequired,
+  disabled: PropTypes.bool,
+};
 
 export default Button;
